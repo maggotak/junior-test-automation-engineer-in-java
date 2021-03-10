@@ -9,12 +9,13 @@ import org.epam.learn.java.exceptionscorrect.enums.Subject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class University implements AverageMarkBySubject{
+public class University implements AverageMarkInterface {
     private final String name;
     private List<Faculty> faculties;
 
     public University(String name) {
         this.name = name;
+        faculties = new ArrayList<>();
     }
 
     public University(String name, List<Faculty> faculties) {
@@ -27,14 +28,14 @@ public class University implements AverageMarkBySubject{
     }
 
     public List<Faculty> getFaculties() throws NoFacultyException {
-        if (faculties == null) {
+        if (faculties.isEmpty()) {
             throw new NoFacultyException("No faculties in university");
         }
         return faculties;
     }
 
     public Faculty getFaculty(FacultyName facultyName) throws NoFacultyException {
-        if (faculties == null) {
+        if (faculties.isEmpty()) {
             throw new NoFacultyException("No faculties in university");
         }
         for (Faculty faculty : faculties) {
@@ -46,7 +47,7 @@ public class University implements AverageMarkBySubject{
     }
 
     public void addFaculty(Faculty faculty) {
-        if (faculties == null) {
+        if (faculties.isEmpty()) {
             faculties = new ArrayList<>();
         }
         faculties.add(faculty);
@@ -54,7 +55,7 @@ public class University implements AverageMarkBySubject{
 
     @Override
     public double getAverageMarkBySubject(Subject subject) throws NoSubjectException, NoFacultyException {
-        if (faculties == null) {
+        if (faculties.isEmpty()) {
             throw new NoFacultyException("Thre is no faculties in university " + name);
         }
 

@@ -4,9 +4,10 @@ import org.epam.learn.java.exceptionscorrect.custom.exceptions.IllegalMarkExcept
 import org.epam.learn.java.exceptionscorrect.custom.exceptions.NoSubjectException;
 import org.epam.learn.java.exceptionscorrect.enums.Subject;
 
+import java.util.HashMap;
 import java.util.Map;
 
-public class Student {
+public class Student implements AverageMarkInterface {
 
     {
         idGenerator++;
@@ -22,6 +23,12 @@ public class Student {
         this.subjectsAndMarks = subjectsAndMarks;
     }
 
+    public Student(String name) {
+        this.id = idGenerator;
+        this.name = name;
+        subjectsAndMarks = new HashMap<>();
+    }
+
     public int getId() {
         return id;
     }
@@ -32,6 +39,13 @@ public class Student {
 
     public Map<Subject, Integer> getSubjectsAndMarks() {
         return subjectsAndMarks;
+    }
+
+    public void addMark(Subject subject, Integer mark) throws IllegalMarkException {
+        if (mark < 0 || mark > 10) {
+            throw new IllegalMarkException("Illegal mark (less than 0 or more than 10)");
+        }
+        this.subjectsAndMarks.put(subject, mark);
     }
 
     public double getAverageMarkByAllSubjects() throws IllegalMarkException, NoSubjectException {
@@ -48,7 +62,7 @@ public class Student {
         return (double) sum / subjectsAndMarks.size();
     }
 
-    public int getMarkBySubject(Subject subject) throws NoSubjectException, IllegalMarkException {
+    public double getAverageMarkBySubject(Subject subject) throws NoSubjectException, IllegalMarkException {
         if (subjectsAndMarks.isEmpty()) {
             throw new NoSubjectException("No subjects found at student " + name);
         }

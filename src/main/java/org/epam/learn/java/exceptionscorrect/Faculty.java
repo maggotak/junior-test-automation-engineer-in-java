@@ -10,12 +10,13 @@ import org.epam.learn.java.exceptionscorrect.enums.Subject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Faculty implements AverageMarkBySubject {
+public class Faculty implements AverageMarkInterface {
     private final FacultyName facultyName;
-    private List<Group> groupList;
+    private final List<Group> groupList;
 
     public Faculty(FacultyName facultyName) {
         this.facultyName = facultyName;
+        groupList = new ArrayList<>();
     }
 
     public Faculty(FacultyName facultyName, List<Group> groupList) {
@@ -32,14 +33,14 @@ public class Faculty implements AverageMarkBySubject {
     }
 
     public List<Group> getGroups() throws NoGroupsException {
-        if (groupList == null) {
+        if (groupList.isEmpty()) {
             throw new NoGroupsException("No groups in faculty " + facultyName);
         }
         return groupList;
     }
 
     public Group getGroup(GroupName groupName) throws NoGroupsException {
-        if (groupList == null) {
+        if (groupList.isEmpty()) {
             throw new NoGroupsException("No groups in faculty " + facultyName);
         }
         for (Group group : groupList) {
@@ -51,15 +52,12 @@ public class Faculty implements AverageMarkBySubject {
     }
 
     public void addGroup(Group group) {
-        if (groupList == null) {
-            groupList = new ArrayList<>();
-        }
         groupList.add(group);
     }
 
     @Override
     public double getAverageMarkBySubject(Subject subject) throws NoSubjectException, NoGroupsException {
-        if (groupList == null) {
+        if (groupList.isEmpty()) {
             throw new NoGroupsException("There is no groups in faculty " + facultyName);
         }
 

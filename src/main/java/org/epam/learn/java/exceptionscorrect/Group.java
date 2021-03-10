@@ -9,12 +9,13 @@ import org.epam.learn.java.exceptionscorrect.enums.Subject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Group implements AverageMarkBySubject {
+public class Group implements AverageMarkInterface {
     private final GroupName groupName;
-    private List<Student> studentListInGroup;
+    private final List<Student> studentListInGroup;
 
     public Group(GroupName groupName) {
         this.groupName = groupName;
+        studentListInGroup = new ArrayList<>();
     }
 
     public Group(GroupName groupName, List<Student> studentListInGroup) {
@@ -47,15 +48,12 @@ public class Group implements AverageMarkBySubject {
     }
 
     public void addStudent(Student student) {
-        if (studentListInGroup == null) {
-            studentListInGroup = new ArrayList<>();
-        }
         studentListInGroup.add(student);
     }
 
     @Override
     public double getAverageMarkBySubject(Subject subject) throws NoSubjectException, NoStudentException {
-        if (studentListInGroup == null) {
+        if (studentListInGroup.isEmpty()) {
             throw new NoStudentException("There is no students in group " + groupName);
         }
 
@@ -63,7 +61,7 @@ public class Group implements AverageMarkBySubject {
         int count = 0;
         for (Student student : studentListInGroup) {
                 try {
-                    sum += student.getMarkBySubject(subject);
+                    sum += student.getAverageMarkBySubject(subject);
                     count++;
                 } catch (NoSubjectException | IllegalMarkException e) {
                     e.printStackTrace();
