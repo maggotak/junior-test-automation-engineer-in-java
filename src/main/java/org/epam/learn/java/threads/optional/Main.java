@@ -1,20 +1,23 @@
 package org.epam.learn.java.threads.optional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 public class Main {
     public static void main(String[] args) {
-        List<LandingStrip> list = new ArrayList<>();
-        list.add(new LandingStrip(false, 1));
-        list.add(new LandingStrip(false, 2));
-        list.add(new LandingStrip(false, 3));
-        list.add(new LandingStrip(false, 4));
-        list.add(new LandingStrip(false, 5));
+        BlockingQueue<LandingStrip> queue = new ArrayBlockingQueue<>(5);
+        try {
+            queue.put(new LandingStrip(1));
+            queue.put(new LandingStrip(2));
+            queue.put(new LandingStrip(3));
+            queue.put(new LandingStrip(4));
+            queue.put(new LandingStrip(5));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-        LandingStripPool pool = new LandingStripPool(list);
         for (int i = 0; i < 10; i++) {
-            new Plane(pool).start();
+           new Plane(queue).start();
         }
     }
 }

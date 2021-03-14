@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Train extends Thread {
 
-    private TunnelDispatcher pool;
+    private final TunnelDispatcher pool;
     private final Direction direction;
 
     public Train (TunnelDispatcher pool, Direction direction) {
@@ -23,9 +23,7 @@ public class Train extends Thread {
     public void run() {
         try {
             TimeUnit.MILLISECONDS.sleep(new Random().nextInt(3000));
-            Tunnel tunnel = pool.dispatch(this);
-            tunnel.using();
-            pool.passed(this, tunnel);
+            pool.dispatch(this);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
