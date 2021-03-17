@@ -20,17 +20,12 @@ public class TunnelDispatcher {
     }
 
     public void dispatch(Train train) {
-        if (train.getDirection() == Direction.FORWARD) {
-            while(!usingTunnel(train, tunnelForward)) {
-                if (tunnelBack.size() != 0) {
-                    usingTunnel(train, tunnelBack);
-                }
+        while (!usingTunnel(train, train.getDirection() == Direction.FORWARD ? tunnelForward : tunnelBack)) {
+            if (tunnelBack.size() != 0) {
+                usingTunnel(train, tunnelBack);
             }
-        } else {
-            while(!usingTunnel(train, tunnelBack)) {
-                if (tunnelForward.size() != 0) {
-                    usingTunnel(train, tunnelForward);
-                }
+            if (tunnelForward.size() != 0) {
+                usingTunnel(train, tunnelForward);
             }
         }
     }
