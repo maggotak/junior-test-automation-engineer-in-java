@@ -12,7 +12,7 @@ public class CloudGoogleMainPage {
     @FindBy(xpath = "//input[@aria-label='Search']")
     WebElement searchButton;
 
-    @FindBy(xpath = "//div[@class='gsc-webResult gsc-result']//*[text()='Google Cloud Platform Pricing Calculator']")
+    @FindBy(id = "suggestion-product-0")
     WebElement linkToGoogleCloudCalculator;
 
     public CloudGoogleMainPage(WebDriver driver) {
@@ -20,15 +20,14 @@ public class CloudGoogleMainPage {
         PageFactory.initElements(driver, this);
     }
 
+
     public CloudGoogleMainPage openPage() {
         driver.get(HOMEPAGE_URL);
-        driver.manage().window().maximize();
         return this;
     }
 
     public GoogleCloudPricingCalculatorPage searchAndClickTerm(String term) {
         searchButton.sendKeys(term);
-        searchButton.sendKeys("\n");
         new WebDriverWait(driver, 10)
                 .until(ExpectedConditions.elementToBeClickable(linkToGoogleCloudCalculator));
         linkToGoogleCloudCalculator.click();

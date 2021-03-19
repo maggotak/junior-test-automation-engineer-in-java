@@ -1,4 +1,4 @@
-package com.epam.learn.java.cleancode;
+package cleancode;
 
 import org.epam.learn.java.cleancode.Airport;
 import org.epam.learn.java.cleancode.planes.ExperimentalPlane;
@@ -8,8 +8,9 @@ import org.epam.learn.java.cleancode.planes.Plane;
 import org.epam.learn.java.cleancode.models.ClassificationLevel;
 import org.epam.learn.java.cleancode.models.ExperimentalTypes;
 import org.epam.learn.java.cleancode.models.MilitaryType;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.Assert;
+import org.junit.Test;
+
 
 import java.util.Arrays;
 import java.util.List;
