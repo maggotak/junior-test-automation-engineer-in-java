@@ -1,25 +1,22 @@
+package org.epam.learn.java.webdriver.task34.page;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class CloudGoogleMainPage {
+public class CloudGoogleMainPage extends AbstractPage {
     private final static String HOMEPAGE_URL = "https://cloud.google.com/";
-    private WebDriver driver;
+    private final static String LINK_TO_GOOGLE_CLOUD_CALCULATOR_XPATH = "//*[@id='suggestion-product-0']";
+    private final static int WAITING_TIME = 10;
 
     @FindBy(xpath = "//input[@aria-label='Search']")
     WebElement searchButton;
 
-    @FindBy(id = "suggestion-product-0")
-    WebElement linkToGoogleCloudCalculator;
-
     public CloudGoogleMainPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
         PageFactory.initElements(driver, this);
     }
-
 
     public CloudGoogleMainPage openPage() {
         driver.get(HOMEPAGE_URL);
@@ -28,9 +25,7 @@ public class CloudGoogleMainPage {
 
     public GoogleCloudPricingCalculatorPage searchAndClickTerm(String term) {
         searchButton.sendKeys(term);
-        new WebDriverWait(driver, 10)
-                .until(ExpectedConditions.elementToBeClickable(linkToGoogleCloudCalculator));
-        linkToGoogleCloudCalculator.click();
+        waitForElement(WAITING_TIME, LINK_TO_GOOGLE_CLOUD_CALCULATOR_XPATH).click();
         return new GoogleCloudPricingCalculatorPage(driver);
     }
 

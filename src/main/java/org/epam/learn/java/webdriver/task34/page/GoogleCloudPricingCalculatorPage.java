@@ -1,12 +1,22 @@
+package org.epam.learn.java.webdriver.task34.page;
+
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class GoogleCloudPricingCalculatorPage {
-    private WebDriver driver;
+public class GoogleCloudPricingCalculatorPage extends AbstractPage {
     private final static int WAITING_TIME = 10;
+    private final static String OPERATING_SYSTEM_SELECT_XPATH = "//md-option/div[contains(text(), '%s')]/..";
+    private final static String MACHINE_CLASS_SELECT_XPATH = "//*[@id='select_container_83']//*[contains(text(), '%s')]/..";
+    private final static String MACHINE_SERIES_SELECT_XPATH = "//*[@id='select_container_91']//*[contains(text(), '%s')]/..";
+    private final static String MACHINE_TYPE_SELECT_XPATH = "//*[@id='select_container_93']//*[contains(text(), '%s')]/..";
+    private final static String NUMBER_OF_GPU_SELECT_XPATH = "//*[@id='select_container_397']//*[contains(text(), '%s')]/..";
+    private final static String GPU_TYPE_SELECT_XPATH = "//*[@id='select_container_399']//*[contains(text(), '%s')]/..";
+    private final static String LOCAL_SSD_SELECT_XPATH = "//*[@id='select_container_358']//*[contains(text(), '%s')]/..";
+    private final static String DATA_CENTER_LOCATION_SELECT_XPATH = "//*[@id='select_container_95']//*[contains(text(), '%s')]/..";
+    private final static String COMMITTED_USAGE_SELECT_XPATH = "//*[@id='select_container_102']//*[contains(text(), '%s')]/..";
 
     @FindBy(xpath = "//*[@class='md-tab ng-scope ng-isolate-scope md-ink-ripple md-active']")
     WebElement computeEngineTitle;
@@ -75,85 +85,74 @@ public class GoogleCloudPricingCalculatorPage {
     WebElement sendEmail;
 
     public GoogleCloudPricingCalculatorPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
         PageFactory.initElements(driver, this);
     }
 
     public GoogleCloudPricingCalculatorPage computeEngineOptionSelect() {
-        new WebDriverWait(driver, WAITING_TIME)
-                .until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.xpath("//*[@id='cloud-site']/devsite-iframe/iframe")));
-        driver.switchTo().frame("myFrame");
+        switchToFrame(driver);
         computeEngineTitle.click();
         return this;
     }
 
-    public GoogleCloudPricingCalculatorPage numberOfInstancesSelect(int number) {
-        numberOfInstances.sendKeys(String.valueOf(number));
+    public GoogleCloudPricingCalculatorPage numberOfInstancesSelect(String number) {
+        numberOfInstances.sendKeys(number);
         return this;
     }
 
     public GoogleCloudPricingCalculatorPage operatingSystemSelect(String system) {
         operatingSystem.click();
-        new WebDriverWait(driver, WAITING_TIME)
-                .until(ExpectedConditions.elementToBeClickable(By.xpath("//md-option/div[contains(text(), '" + system + "')]/.."))).click();
+        waitForElement(WAITING_TIME, String.format(OPERATING_SYSTEM_SELECT_XPATH, system)).click();
         return this;
     }
 
     public GoogleCloudPricingCalculatorPage machineClassSelect(String machineClass) {
         vMClass.click();
-        new WebDriverWait(driver, WAITING_TIME)
-                .until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='select_container_83']//*[contains(text(), '" + machineClass + "')]/.."))).click();
+        waitForElement(WAITING_TIME, String.format(MACHINE_CLASS_SELECT_XPATH, machineClass)).click();
         return this;
     }
 
     public GoogleCloudPricingCalculatorPage machineSeriesSelect(String series) {
         machineSeries.click();
-        new WebDriverWait(driver, WAITING_TIME)
-                .until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='select_container_91']//*[contains(text(), '" + series + "')]/.."))).click();
+        waitForElement(WAITING_TIME, String.format(MACHINE_SERIES_SELECT_XPATH, series)).click();
         return this;
     }
 
     public GoogleCloudPricingCalculatorPage machineTypeSelect(String type) {
         machineType.click();
-        new WebDriverWait(driver, WAITING_TIME)
-                .until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='select_container_93']//*[contains(text(), '" + type + "')]/.."))).click();
+        waitForElement(WAITING_TIME, String.format(MACHINE_TYPE_SELECT_XPATH, type)).click();
         return this;
     }
 
 
-    public GoogleCloudPricingCalculatorPage addGPU(int number, String type) {
+    public GoogleCloudPricingCalculatorPage addGPU(String number, String type) {
         addGPUCheckbox.click();
 
         numberOfGPU.click();
-        new WebDriverWait(driver, WAITING_TIME)
-                .until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='select_container_397']//*[contains(text(), '" + number + "')]/.."))).click();
+        waitForElement(WAITING_TIME, String.format(NUMBER_OF_GPU_SELECT_XPATH, number)).click();
 
         GPUType.click();
-        new WebDriverWait(driver, WAITING_TIME)
-                .until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='select_container_399']//*[contains(text(), '" + type + "')]/.."))).click();
+        waitForElement(WAITING_TIME, String.format(GPU_TYPE_SELECT_XPATH, type)).click();
+
         return this;
     }
 
 
     public GoogleCloudPricingCalculatorPage localSSDSelect(String ssd) {
         localSSD.click();
-        new WebDriverWait(driver, WAITING_TIME)
-                .until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='select_container_358']//*[contains(text(), '" + ssd + "')]/.."))).click();
-
+        waitForElement(WAITING_TIME, String.format(LOCAL_SSD_SELECT_XPATH, ssd)).click();
         return this;
     }
 
     public GoogleCloudPricingCalculatorPage datacenterLocationSelect(String location) {
-        this.datacenterLocation.click();
-        new WebDriverWait(driver, WAITING_TIME)
-                .until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='select_container_95']//*[contains(text(), '" + location + "')]/.."))).click();
+        datacenterLocation.click();
+        waitForElement(WAITING_TIME, String.format(DATA_CENTER_LOCATION_SELECT_XPATH, location)).click();
         return this;
     }
 
     public GoogleCloudPricingCalculatorPage committedUsageSelect(String usage) {
         committedUsage.click();
-        new WebDriverWait(driver, WAITING_TIME)
-                .until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='select_container_102']//*[contains(text(), '" + usage + "')]/.."))).click();
+        waitForElement(WAITING_TIME, String.format(COMMITTED_USAGE_SELECT_XPATH, usage)).click();
         return this;
     }
 
@@ -163,19 +162,13 @@ public class GoogleCloudPricingCalculatorPage {
     }
 
     public GoogleCloudPricingCalculatorPage emailEstimate() {
+        switchToFrame(driver);
         emailToEstimate.click();
         return this;
     }
 
     public GoogleCloudPricingCalculatorPage fillAndSendEmail() {
-        driver.switchTo().frame(driver.findElement(By.xpath("//*[@id='cloud-site']/devsite-iframe/iframe")));
-        driver.switchTo().frame("myFrame");
         emailEstimateInput.sendKeys(Keys.LEFT_CONTROL + "v");
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         sendEmail.click();
         return this;
     }
@@ -201,6 +194,13 @@ public class GoogleCloudPricingCalculatorPage {
 
     public String getCostPerMonth() {
         return costPerMonth.getText();
+    }
+
+    private GoogleCloudPricingCalculatorPage switchToFrame(WebDriver driver) {
+        new WebDriverWait(driver, WAITING_TIME)
+                .until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.xpath("//*[@id='cloud-site']/devsite-iframe/iframe")));
+        driver.switchTo().frame("myFrame");
+        return this;
     }
 
 }

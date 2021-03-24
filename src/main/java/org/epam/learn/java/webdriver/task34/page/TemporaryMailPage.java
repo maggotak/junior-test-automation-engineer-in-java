@@ -1,25 +1,24 @@
-import org.openqa.selenium.By;
+package org.epam.learn.java.webdriver.task34.page;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class TemporaryMailPage {
+public class TemporaryMailPage extends AbstractPage {
     private final static String HOMEPAGE_URL = "https://10minutemail.com/";
+    private final static String COPY_ADDRESS_BUTTON_XPATH = "//*[@id='copy_address']";
+    private final static String INBOX_MESSAGES_XPATH = "//*[@class='message_top']";
     private final static int WAIT_TIME_FOR_EMAIL = 30;
     private final static int WAITING_TIME = 10;
-    private WebDriver driver;
 
     @FindBy(xpath = "//*[@class='quote']//*[contains(text(), 'USD')]")
     WebElement costInEmail;
 
     public TemporaryMailPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
         PageFactory.initElements(driver, this);
     }
-
 
     public TemporaryMailPage openPage() {
         driver.get(HOMEPAGE_URL);
@@ -27,16 +26,12 @@ public class TemporaryMailPage {
     }
 
     public TemporaryMailPage getTemporaryEmail() {
-        new WebDriverWait(driver, WAITING_TIME)
-                .until(ExpectedConditions.elementToBeClickable(By.id("copy_address")))
-                .click();
+        waitForElement(WAITING_TIME, COPY_ADDRESS_BUTTON_XPATH).click();
         return this;
     }
 
     public String getCostFromEmail() {
-        new WebDriverWait(driver, WAIT_TIME_FOR_EMAIL)
-                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@class='message_top']")))
-                .click();
+        waitForElement(WAIT_TIME_FOR_EMAIL, INBOX_MESSAGES_XPATH).click();
         return costInEmail.getText();
     }
 

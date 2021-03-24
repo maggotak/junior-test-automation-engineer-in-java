@@ -1,3 +1,7 @@
+package webdriver;
+
+import org.epam.learn.java.webdriver.task34.page.CloudGoogleMainPage;
+import org.epam.learn.java.webdriver.task34.page.GoogleCloudPricingCalculatorPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterClass;
@@ -8,12 +12,12 @@ import org.testng.asserts.SoftAssert;
 public class ComputeEngineEstimateByHandTest {
     private WebDriver driver;
 
-    private final static int NUMBER_OF_INSTANCES = 4;
+    private final static String NUMBER_OF_INSTANCES = "4";
     private final static String OPERATING_SYSTEM = "Free: Debian, CentOS, CoreOS, Ubuntu, or other User Provided OS";
     private final static String MACHINE_CLASS = "Regular";
     private final static String MACHINE_SERIES = "N1";
     private final static String MACHINE_TYPE = "n1-standard-8";
-    private final static int NUMBER_OF_GPU = 1;
+    private final static String NUMBER_OF_GPU = "1";
     private final static String TYPE_OF_GPU = "NVIDIA Tesla V100";
     private final static String LOCAL_SSD = "2x375";
     private final static String DATACENTER_LOCATION = "Frankfurt";
