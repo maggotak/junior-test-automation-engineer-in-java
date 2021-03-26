@@ -41,8 +41,8 @@ public class ComputeEngineEstimateByMailTest {
                 .machineClassSelect(parameters.getMachineClass())
                 .machineSeriesSelect(parameters.getMachineSeries())
                 .machineTypeSelect(parameters.getMachineType())
-//                .addGPU(parameters.getNumberOfGPU(), parameters.getTypeOfGPU())
-//                .localSSDSelect(parameters.getLocalSSD())
+                .addGPU(parameters.getNumberOfGPU(), parameters.getTypeOfGPU())
+                .localSSDSelect(parameters.getLocalSSD())
                 .datacenterLocationSelect(parameters.getDatacenterLocation())
                 .committedUsageSelect(parameters.getCommittedUsage())
                 .addToEstimate();

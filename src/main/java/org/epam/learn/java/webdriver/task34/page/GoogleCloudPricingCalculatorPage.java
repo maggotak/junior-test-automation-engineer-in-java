@@ -1,5 +1,7 @@
 package org.epam.learn.java.webdriver.task34.page;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -12,11 +14,13 @@ public class GoogleCloudPricingCalculatorPage extends AbstractPage {
     private final static String MACHINE_CLASS_SELECT_XPATH = "//*[@id='select_container_83']//*[contains(text(), '%s')]/..";
     private final static String MACHINE_SERIES_SELECT_XPATH = "//*[@id='select_container_91']//*[contains(text(), '%s')]/..";
     private final static String MACHINE_TYPE_SELECT_XPATH = "//*[@id='select_container_93']//*[contains(text(), '%s')]/..";
-    private final static String NUMBER_OF_GPU_SELECT_XPATH = "//*[@id='select_container_397']//*[contains(text(), '%s')]/..";
-    private final static String GPU_TYPE_SELECT_XPATH = "//*[@id='select_container_399']//*[contains(text(), '%s')]/..";
-    private final static String LOCAL_SSD_SELECT_XPATH = "//*[@id='select_container_358']//*[contains(text(), '%s')]/..";
+    private final static String NUMBER_OF_GPU_SELECT_XPATH = "//*[@id='select_container_400']//*[contains(text(), '%s')]/..";
+    private final static String GPU_TYPE_SELECT_XPATH = "//*[@id='select_container_402']//*[contains(text(), '%s')]/..";
+    private final static String LOCAL_SSD_SELECT_XPATH = "//*[@id='select_container_361']//*[contains(text(), '%s')]/..";
     private final static String DATA_CENTER_LOCATION_SELECT_XPATH = "//*[@id='select_container_95']//*[contains(text(), '%s')]/..";
     private final static String COMMITTED_USAGE_SELECT_XPATH = "//*[@id='select_container_102']//*[contains(text(), '%s')]/..";
+    private final static String SEND_MAIL = "//*[@class='md-raised md-primary cpc-button md-button md-ink-ripple'][contains(text(), 'Send Email')]";
+    private final static Logger logger = LogManager.getRootLogger();
 
     @FindBy(xpath = "//*[@class='md-tab ng-scope ng-isolate-scope md-ink-ripple md-active']")
     WebElement computeEngineTitle;
@@ -39,14 +43,14 @@ public class GoogleCloudPricingCalculatorPage extends AbstractPage {
     @FindBy(xpath = "//*[@ng-model='listingCtrl.computeServer.addGPUs']")
     WebElement addGPUCheckbox;
 
-    @FindBy(id = "select_value_label_394")
+    @FindBy(id = "select_399")
     WebElement numberOfGPU;
 
-    @FindBy(id = "select_value_label_356")
-    WebElement localSSD;
-
-    @FindBy(id = "select_value_label_395")
+    @FindBy(id = "select_401")
     WebElement GPUType;
+
+    @FindBy(id = "select_360")
+    WebElement localSSD;
 
     @FindBy(id = "select_value_label_63")
     WebElement datacenterLocation;
@@ -81,9 +85,6 @@ public class GoogleCloudPricingCalculatorPage extends AbstractPage {
     @FindBy(xpath = "//*[@ng-model='emailQuote.user.email']")
     WebElement emailEstimateInput;
 
-    @FindBy(xpath = "//*[@class='md-raised md-primary cpc-button md-button md-ink-ripple'][contains(text(), 'Send Email')]")
-    WebElement sendEmail;
-
     public GoogleCloudPricingCalculatorPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
@@ -92,35 +93,41 @@ public class GoogleCloudPricingCalculatorPage extends AbstractPage {
     public GoogleCloudPricingCalculatorPage computeEngineOptionSelect() {
         switchToFrame(driver);
         computeEngineTitle.click();
+        logger.info("Compute Engine switching is complete");
         return this;
     }
 
     public GoogleCloudPricingCalculatorPage numberOfInstancesSelect(String number) {
         numberOfInstances.sendKeys(number);
+        logger.info("Number of instances selection is complete");
         return this;
     }
 
     public GoogleCloudPricingCalculatorPage operatingSystemSelect(String system) {
         operatingSystem.click();
         waitForElement(WAITING_TIME, String.format(OPERATING_SYSTEM_SELECT_XPATH, system)).click();
+        logger.info("Operating system selection is complete");
         return this;
     }
 
     public GoogleCloudPricingCalculatorPage machineClassSelect(String machineClass) {
         vMClass.click();
         waitForElement(WAITING_TIME, String.format(MACHINE_CLASS_SELECT_XPATH, machineClass)).click();
+        logger.info("Virtual machine class selection is complete");
         return this;
     }
 
     public GoogleCloudPricingCalculatorPage machineSeriesSelect(String series) {
         machineSeries.click();
         waitForElement(WAITING_TIME, String.format(MACHINE_SERIES_SELECT_XPATH, series)).click();
+        logger.info("Machine system selection is complete");
         return this;
     }
 
     public GoogleCloudPricingCalculatorPage machineTypeSelect(String type) {
         machineType.click();
         waitForElement(WAITING_TIME, String.format(MACHINE_TYPE_SELECT_XPATH, type)).click();
+        logger.info("Machine type selection is complete");
         return this;
     }
 
@@ -133,7 +140,7 @@ public class GoogleCloudPricingCalculatorPage extends AbstractPage {
 
         GPUType.click();
         waitForElement(WAITING_TIME, String.format(GPU_TYPE_SELECT_XPATH, type)).click();
-
+        logger.info("Number and type GPU selection is complete");
         return this;
     }
 
@@ -141,18 +148,21 @@ public class GoogleCloudPricingCalculatorPage extends AbstractPage {
     public GoogleCloudPricingCalculatorPage localSSDSelect(String ssd) {
         localSSD.click();
         waitForElement(WAITING_TIME, String.format(LOCAL_SSD_SELECT_XPATH, ssd)).click();
+        logger.info("Local SSD selection is complete");
         return this;
     }
 
     public GoogleCloudPricingCalculatorPage datacenterLocationSelect(String location) {
         datacenterLocation.click();
         waitForElement(WAITING_TIME, String.format(DATA_CENTER_LOCATION_SELECT_XPATH, location)).click();
+        logger.info("Datacenter location selection is complete");
         return this;
     }
 
     public GoogleCloudPricingCalculatorPage committedUsageSelect(String usage) {
         committedUsage.click();
         waitForElement(WAITING_TIME, String.format(COMMITTED_USAGE_SELECT_XPATH, usage)).click();
+        logger.info("Committed usage selection is complete");
         return this;
     }
 
@@ -168,8 +178,9 @@ public class GoogleCloudPricingCalculatorPage extends AbstractPage {
     }
 
     public GoogleCloudPricingCalculatorPage fillAndSendEmail() {
-        emailEstimateInput.sendKeys(Keys.LEFT_CONTROL + "v");
-        sendEmail.click();
+        emailEstimateInput.sendKeys(Keys.chord(Keys.LEFT_CONTROL, "v"));
+        waitForElement(WAITING_TIME, SEND_MAIL).click();
+        logger.info("Email sent");
         return this;
     }
 
