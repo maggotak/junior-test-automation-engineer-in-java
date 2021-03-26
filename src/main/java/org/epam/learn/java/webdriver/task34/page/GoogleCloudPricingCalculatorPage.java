@@ -204,7 +204,8 @@ public class GoogleCloudPricingCalculatorPage extends AbstractPage {
     }
 
     public String getCostPerMonth() {
-        return costPerMonth.getText();
+        String textWithCost = costPerMonth.getText();
+        return textWithCost.substring(textWithCost.indexOf("USD"), textWithCost.indexOf("USD") + 12);
     }
 
     private GoogleCloudPricingCalculatorPage switchToFrame(WebDriver driver) {

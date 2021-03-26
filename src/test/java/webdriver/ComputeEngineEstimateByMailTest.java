@@ -68,7 +68,7 @@ public class ComputeEngineEstimateByMailTest {
         driver.switchTo().window(mail);
         String costFromEmail = page.getCostFromEmail();
 
-        Assert.assertTrue(costFromGoogle.contains(costFromEmail));
+        Assert.assertEquals(costFromGoogle, costFromEmail);
     }
 
     @AfterClass
